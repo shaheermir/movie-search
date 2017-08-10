@@ -1,6 +1,14 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
+import { HashRouter, Route } from 'react-router-dom';
+import Landing from './Landing';
 
-const App = () => {};
+const App = () => (
+  <HashRouter>
+    <div className="app">
+      <Route exact path="/" component={Landing} />
+    </div>
+  </HashRouter>
+);
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('app'));
