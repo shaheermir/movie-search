@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -22,13 +23,17 @@ const ShowCard = (props: {
   poster: string,
   title: string,
   year: string,
-  description: string
+  description: string,
+  imdbID: string
 }) => (
   <Wrapper>
-    <Image
-      alt={`${props.title} Show Poster`}
-      src={`/public/img/posters/${props.poster}`}
-    />
+    <Link to={`/details/${props.imdbID}`}>
+      {' '}
+      <Image
+        alt={`${props.title} Show Poster`}
+        src={`/public/img/posters/${props.poster}`}
+      />
+    </Link>
     <div>
       <h3>{props.title}</h3>
       <h4>({props.year})</h4>
