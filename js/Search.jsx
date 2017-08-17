@@ -1,44 +1,30 @@
 // @flow
 
 import React from 'react';
+import { connect } from 'react-redux';
 import ShowCard from './ShowCard';
 import Header from './Header';
 
-class Search extends React.Component {
-  state = {
-    searchTerm: ''
-  };
+const Search = (props: {
+  searchTerm: string, // eslint-disable-line react/no-unused-prop-types
+  shows: Array<Show>
+}) => (
+  <div className="search">
+    <Header showSearch />
+    <div>
+      {props.shows
+        .filter(show =>
+          `${show.title} ${show.description}`
+            .toUpperCase()
+            .includes(props.searchTerm.toUpperCase())
+        )
+        .map(show => <ShowCard key={show.imdbID} {...show} />)}
+    </div>
+  </div>
+);
 
-  props: {
-    shows: Array<Show>
-  };
+const mapStateToProps = state => ({
+  searchTerm: state.searchTerm
+});
 
-  handleSearchTermChange = (e: SyntheticKeyboardEvent & { target: HTMLInputElement }) => {
-    this.setState({
-      searchTerm: e.target.value
-    });
-  };
-
-  render() {
-    return (
-      <div className="search">
-        <Header
-          showSearch
-          handleSearchTermChange={this.handleSearchTermChange}
-          searchTerm={this.state.searchTerm}
-        />
-        <div>
-          {this.props.shows
-            .filter(show =>
-              `${show.title} ${show.description}`
-                .toUpperCase()
-                .includes(this.state.searchTerm.toUpperCase())
-            )
-            .map(show => <ShowCard key={show.imdbID} {...show} />)}
-        </div>
-      </div>
-    );
-  }
-}
-
-export default Search;
+export default connect(mapStateToProps)(Search);
